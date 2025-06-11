@@ -4,43 +4,54 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# --- Page Configuration ---
+# --- Konfigurasi Halaman ---
 st.set_page_config(
-    page_title="Pelatihan & Evaluasi Model | Churn Prediction", 
+    page_title="Pelatihan & Evaluasi Model",
     layout="wide",
     page_icon="🏋️"
 )
 
-# --- Custom CSS for better aesthetics ---
-st.markdown("""
-    <style>
-        .main { background-color: #f6f9fb; }
-        h1, h2, h3 { color: #304ffe; }
-        .stDataFrame th { background-color: #e3f2fd !important; }
-        .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
-    </style>
-""", unsafe_allow_html=True)
-
-# --- Header ---
-st.title("🏋️ Pelatihan & Evaluasi Model")
+# --- Tambahkan Logo/Banner ---
+st.markdown(
+    """
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2203/2203187.png" width="50" style="margin-right: 20px;">
+        <h1 style="margin: 0; color: #2E86AB;">Pelatihan & Evaluasi Model Churn</h1>
+    </div>
+    """, unsafe_allow_html=True
+)
 st.caption("Project Akhir Data Mining Kelompok 2 | Prediksi Churn Pelanggan Telco")
 st.markdown("---")
 
-# --- Training Methodology Section ---
+# --- Custom CSS (Diselaraskan dengan Page 1) ---
+st.markdown("""
+    <style>
+        .main { background-color: #f6f9fb; }
+        h1, h2, h3 { color: #2E86AB !important; }
+        .stDataFrame th { background-color: #e3f2fd !important; }
+        .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
+        .stMetric-value { color: #2E86AB !important; }
+        .stMetric-label { color: #555 !important; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- Metodologi Pelatihan ---
 with st.container():
     st.subheader("🔬 Metodologi Pelatihan")
     st.info("""
-    **1. Preprocessing:** Data cleaning, feature encoding, dan normalisasi.
-    **2. Handling Imbalanced Data:** Menggunakan SMOTE.
-    **3. Model Training:** 80/20 split, cross-validation, hyperparameter tuning.
+    **1. Preprocessing:** Data cleaning, feature encoding, dan normalisasi.  
+    **2. Handling Imbalanced Data:** Menggunakan SMOTE.  
+    **3. Model Training:** 80/20 split, cross-validation, hyperparameter tuning.  
     **4. Evaluasi:** Akurasi, Precision, Recall, F1-Score (fokus pada deteksi churn).
     """, icon="⚙️")
 
-# --- Overview Cards ---
-st.markdown("### 📋 Overview Training")
+st.markdown("---")
+
+# --- Overview Card (Diselaraskan) ---
+st.markdown("### 📋 Ringkasan Training")
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.metric(label="Dataset", value="Telco Churn", delta="7043 samples", help="Jumlah data setelah preprocessing")
+    st.metric(label="Dataset", value="Telco Churn", delta="7043 sampel", help="Jumlah data setelah preprocessing")
 with col2:
     st.metric(label="Balancing", value="SMOTE", delta="Synthetic Oversampling")
 with col3:
@@ -48,9 +59,14 @@ with col3:
 with col4:
     st.metric(label="🏆 Best Model", value="XGBoost", delta="Best F1-Score")
 
-st.divider()
+st.warning(
+    "⚠️ **Dataset Tidak Seimbang**: Ditangani dengan teknik SMOTE sebelum training.",
+    icon="⚠️"
+)
 
-# --- Performance Table ---
+st.markdown("---")
+
+# --- Tabel Performa Model ---
 st.markdown("### 📈 Perbandingan Performa Model")
 data_performa = {
     'Model': ['XGBoost', 'Logistic Regression', 'Random Forest', 'Support Vector Machine'],
@@ -66,7 +82,7 @@ df_performa = df_performa[['Ranking','Model','Akurasi','Precision (Churn)','Reca
 def highlight_max(s):
     if s.name in ['Ranking', 'Model']: return ['']*len(s)
     is_max = s == s.max()
-    return ['background-color: #304ffe; color: white; font-weight: bold' if v else '' for v in is_max]
+    return ['background-color: #2E86AB; color: white; font-weight: bold' if v else '' for v in is_max]
 
 st.dataframe(
     df_performa.style.apply(highlight_max, axis=0).format({
@@ -78,23 +94,23 @@ st.dataframe(
     use_container_width=True, hide_index=True
 )
 
-# --- Performance Visualization ---
+# --- Visualisasi Performa Model ---
 st.markdown("### 📊 Visualisasi Performa Model")
 col1, col2 = st.columns(2)
 with col1:
     fig, ax = plt.subplots()
-    sns.barplot(x='Model', y='Akurasi', data=df_performa, palette='Blues_r', ax=ax)
+    sns.barplot(x='Model', y='Akurasi', data=df_performa, palette=['#2E86AB', '#A23B72', '#F9A602', '#6C3483'], ax=ax)
     ax.set_title('Akurasi Tiap Model')
     ax.set_ylim(0,1)
     st.pyplot(fig, use_container_width=True)
 with col2:
     fig, ax = plt.subplots()
-    sns.barplot(x='Model', y='F1-Score (Churn)', data=df_performa, palette='Purples', ax=ax)
+    sns.barplot(x='Model', y='F1-Score (Churn)', data=df_performa, palette=['#2E86AB', '#A23B72', '#F9A602', '#6C3483'], ax=ax)
     ax.set_title('F1-Score (Churn) Tiap Model')
     ax.set_ylim(0,1)
     st.pyplot(fig, use_container_width=True)
 
-# --- Interpretation & Recommendation ---
+# --- Interpretasi & Rekomendasi ---
 with st.expander("📖 Interpretasi Hasil & Rekomendasi", expanded=True):
     st.success("""
     - **XGBoost**: F1-score tertinggi (0.64), akurasi terbaik (0.80) → **Recommended**.
@@ -103,8 +119,9 @@ with st.expander("📖 Interpretasi Hasil & Rekomendasi", expanded=True):
     - **SVM**: Recall tinggi (0.72), akurasi lebih rendah.
     """)
 
-# --- Classification Report Tabs ---
-st.divider()
+st.markdown("---")
+
+# --- Laporan Klasifikasi Detail ---
 st.markdown("### 📄 Laporan Klasifikasi Detail")
 tab1, tab2, tab3, tab4 = st.tabs(["XGBoost", "Logistic Regression", "Random Forest", "SVM"])
 with tab1:
@@ -149,5 +166,5 @@ with tab4:
     """, language='text')
 
 # --- Footer / Divider ---
-st.divider()
+st.markdown("---")
 st.markdown("<center><span style='color: #999;'>© 2025 Kelompok 2 Data Mining</span></center>", unsafe_allow_html=True)
