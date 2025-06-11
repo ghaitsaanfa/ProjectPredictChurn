@@ -4,6 +4,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
+# --- Page Configuration ---
+st.set_page_config(
+    page_title="Pelatihan & Evaluasi Model | Churn Prediction", 
+    layout="wide",
+    page_icon="🏋️"
+)
+
 # --- Custom CSS for better aesthetics ---
 st.markdown("""
     <style>
@@ -13,13 +20,6 @@ st.markdown("""
         .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
     </style>
 """, unsafe_allow_html=True)
-
-# --- Page Configuration ---
-st.set_page_config(
-    page_title="Pelatihan & Evaluasi Model | Churn Prediction", 
-    layout="wide",
-    page_icon="🏋️"
-)
 
 # --- Header ---
 st.title("🏋️ Pelatihan & Evaluasi Model")
