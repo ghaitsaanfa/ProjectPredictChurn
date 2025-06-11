@@ -11,9 +11,6 @@ st.set_page_config(
 
 st.title("Selamat Datang di Dashboard Prediksi Churn Pelanggan! 👋")
 
-# Nama Kelompok di bawah judul
-st.markdown("### Kelompok 2 - Data Mining")
-
 st.info("""
 Proyek ini bertujuan untuk menganalisis faktor-faktor yang mempengaruhi **churn pelanggan** pada sebuah perusahaan telekomunikasi.
 Berdasarkan analisis tersebut, beberapa model machine learning dibangun untuk memprediksi kemungkinan seorang pelanggan akan berhenti berlangganan (**churn**).
@@ -45,8 +42,10 @@ st.markdown("---")
 st.sidebar.header("Navigasi")
 st.sidebar.success("Pilih halaman di atas.")
 
+# Nama Kelompok
+st.markdown("### Kelompok 2 - Data Mining")
 # Footer dengan nama kelompok
 st.markdown(
-    "<hr><center><span style='color:gray'>© 2025 Kelompok 2 - Data Mining | Universitas XYZ</span></center>",
+    "<hr><center><span style='color:gray'>© 2025 Kelompok 2 - Data Mining | Universitas Negeri Semarang</span></center>",
     unsafe_allow_html=True
 )
