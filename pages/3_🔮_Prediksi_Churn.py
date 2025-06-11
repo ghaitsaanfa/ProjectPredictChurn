@@ -29,8 +29,7 @@ st.markdown("""
 st.markdown(
     """
     <div style="display: flex; align-items: center; margin-bottom: 15px;">
-        <img src="https://cdn-icons-png.flaticon.com/512/2203/2203187.png" width="50" style="margin-right: 20px;">
-        <h1 style="margin: 0; color: #2E86AB;">Prediksi Churn Pelanggan</h1>
+        <h1 style="margin: 0; color: #2E86AB;">🔮 Prediksi Churn Pelanggan</h1>
     </div>
     """, unsafe_allow_html=True
 )
