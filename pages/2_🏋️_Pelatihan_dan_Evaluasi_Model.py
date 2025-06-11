@@ -1,184 +1,112 @@
-# pages/2_🏋️_Pelatihan_Model.py
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
-# --- Konfigurasi Halaman ---
+# --- Custom CSS for better aesthetics ---
+st.markdown("""
+    <style>
+        .main { background-color: #f6f9fb; }
+        h1, h2, h3 { color: #304ffe; }
+        .stDataFrame th { background-color: #e3f2fd !important; }
+        .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- Page Configuration ---
 st.set_page_config(
-    page_title="Pelatihan Model", 
+    page_title="Pelatihan & Evaluasi Model | Churn Prediction", 
     layout="wide",
-    page_icon="🏋️",
-    initial_sidebar_state="expanded"
+    page_icon="🏋️"
 )
 
-# --- Header dan Deskripsi ---
-st.title("🏋️ Pelatihan dan Evaluasi Model")
-st.markdown("Perbandingan performa 4 model Machine Learning untuk prediksi churn pelanggan")
+# --- Header ---
+st.title("🏋️ Pelatihan & Evaluasi Model")
+st.caption("Project Akhir Data Mining Kelompok 2 | Prediksi Churn Pelanggan Telco")
 st.markdown("---")
 
-# --- Metodologi Training ---
-st.markdown("### 🔬 Metodologi Pelatihan")
+# --- Training Methodology Section ---
+with st.container():
+    st.subheader("🔬 Metodologi Pelatihan")
+    st.info("""
+    **1. Preprocessing:** Data cleaning, feature encoding, dan normalisasi.
+    **2. Handling Imbalanced Data:** Menggunakan SMOTE.
+    **3. Model Training:** 80/20 split, cross-validation, hyperparameter tuning.
+    **4. Evaluasi:** Akurasi, Precision, Recall, F1-Score (fokus pada deteksi churn).
+    """, icon="⚙️")
 
-with st.expander("📖 Detail Proses Training", expanded=False):
-    st.markdown("""
-    **1. Preprocessing Data:**
-    - Data cleaning dan handling missing values
-    - Feature encoding untuk variabel kategorikal
-    - Standard scaling untuk normalisasi fitur numerik
-    
-    **2. Handling Imbalanced Data:**
-    - Menggunakan **SMOTE** (Synthetic Minority Oversampling Technique)
-    - Menyeimbangkan distribusi kelas target (Churn vs No Churn)
-    
-    **3. Model Training:**
-    - Split data: 80% training, 20% testing
-    - Cross-validation untuk validasi model
-    - Hyperparameter tuning untuk optimisasi performa
-    
-    **4. Evaluasi Model:**
-    - Metrik utama: Accuracy, Precision, Recall, F1-Score
-    - Focus pada deteksi kelas minority (Churn = Yes)
-    """)
-
-# --- Informasi Training ---
+# --- Overview Cards ---
 st.markdown("### 📋 Overview Training")
-
 col1, col2, col3, col4 = st.columns(4)
-
 with col1:
-    st.markdown("""
-    <div style="padding: 15px; border-radius: 10px; background-color: #e3f2fd; text-align: center;">
-        <h3 style="margin: 0; color: #1976d2;">📊 Dataset</h3>
-        <p style="margin: 5px 0; color: #1976d2; font-size: 18px; font-weight: bold;">Telco Churn</p>
-        <p style="margin: 0; color: #666; font-size: 12px;">7043 samples</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
+    st.metric(label="Dataset", value="Telco Churn", delta="7043 samples", help="Jumlah data setelah preprocessing")
 with col2:
-    st.markdown("""
-    <div style="padding: 15px; border-radius: 10px; background-color: #f3e5f5; text-align: center;">
-        <h3 style="margin: 0; color: #7b1fa2;">⚖️ Balancing</h3>
-        <p style="margin: 5px 0; color: #7b1fa2; font-size: 18px; font-weight: bold;">SMOTE</p>
-        <p style="margin: 0; color: #666; font-size: 12px;">Synthetic Oversampling</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
+    st.metric(label="Balancing", value="SMOTE", delta="Synthetic Oversampling")
 with col3:
-    st.markdown("""
-    <div style="padding: 15px; border-radius: 10px; background-color: #fff3e0; text-align: center;">
-        <h3 style="margin: 0; color: #f57c00;">🤖 Models</h3>
-        <p style="margin: 5px 0; color: #f57c00; font-size: 18px; font-weight: bold;">4 Algoritma</p>
-        <p style="margin: 0; color: #666; font-size: 12px;">ML Classification</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
+    st.metric(label="Model", value="4 Algoritma", delta="ML Classification")
 with col4:
-    st.markdown("""
-    <div style="padding: 15px; border-radius: 10px; background-color: #e8f5e8; text-align: center;">
-        <h3 style="margin: 0; color: #388e3c;">🏆 Winner</h3>
-        <p style="margin: 5px 0; color: #388e3c; font-size: 18px; font-weight: bold;">XGBoost</p>
-        <p style="margin: 0; color: #666; font-size: 12px;">Best F1-Score</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.metric(label="🏆 Best Model", value="XGBoost", delta="Best F1-Score")
 
-st.markdown("---")
+st.divider()
 
-# --- Ringkasan Metrik Kinerja ---
+# --- Performance Table ---
 st.markdown("### 📈 Perbandingan Performa Model")
-
-# Data diambil langsung dari hasil Anda
 data_performa = {
     'Model': ['XGBoost', 'Logistic Regression', 'Random Forest', 'Support Vector Machine'],
     'Akurasi': [0.8009, 0.7495, 0.7802, 0.7545],
-    'Precision (untuk Churn=Yes)': [0.61, 0.52, 0.58, 0.53],
-    'Recall (untuk Churn=Yes)': [0.68, 0.80, 0.59, 0.72],
-    'F1-score (untuk Churn=Yes)': [0.64, 0.63, 0.59, 0.61]
+    'Precision (Churn)': [0.61, 0.52, 0.58, 0.53],
+    'Recall (Churn)': [0.68, 0.80, 0.59, 0.72],
+    'F1-Score (Churn)': [0.64, 0.63, 0.59, 0.61]
 }
-df_performa = pd.DataFrame(data_performa).sort_values(by='F1-score (untuk Churn=Yes)', ascending=False).reset_index(drop=True)
-
-# Membuat ranking berdasarkan F1-score
+df_performa = pd.DataFrame(data_performa).sort_values('F1-Score (Churn)', ascending=False).reset_index(drop=True)
 df_performa['Ranking'] = ['🥇', '🥈', '🥉', '4️⃣']
-df_performa = df_performa[['Ranking', 'Model', 'Akurasi', 'Precision (untuk Churn=Yes)', 'Recall (untuk Churn=Yes)', 'F1-score (untuk Churn=Yes)']]
+df_performa = df_performa[['Ranking','Model','Akurasi','Precision (Churn)','Recall (Churn)','F1-Score (Churn)']]
 
-# Styling untuk highlight nilai tertinggi di setiap kolom
 def highlight_max(s):
-    """
-    Highlight nilai maksimum dalam setiap kolom numerik.
-    """
-    if s.name in ['Ranking', 'Model']:  # Skip kolom non-numerik
-        return [''] * len(s)
-    else:
-        is_max = s == s.max()
-        return ['background-color: #4caf50; color: white; font-weight: bold' if v else '' for v in is_max]
+    if s.name in ['Ranking', 'Model']: return ['']*len(s)
+    is_max = s == s.max()
+    return ['background-color: #304ffe; color: white; font-weight: bold' if v else '' for v in is_max]
 
-styled_df = df_performa.style.apply(highlight_max, axis=0).format({
-    'Akurasi': '{:.3f}',
-    'Precision (untuk Churn=Yes)': '{:.2f}',
-    'Recall (untuk Churn=Yes)': '{:.2f}',
-    'F1-score (untuk Churn=Yes)': '{:.2f}'
-})
+st.dataframe(
+    df_performa.style.apply(highlight_max, axis=0).format({
+        'Akurasi': '{:.3f}',
+        'Precision (Churn)': '{:.2f}',
+        'Recall (Churn)': '{:.2f}',
+        'F1-Score (Churn)': '{:.2f}'
+    }),
+    use_container_width=True, hide_index=True
+)
 
-st.dataframe(styled_df, use_container_width=True, hide_index=True)
-
-# --- Visualisasi Perbandingan Metrik ---
-st.markdown("### 📊 Visualisasi Performa")
-
-# Create subplot dengan 2 kolom
+# --- Performance Visualization ---
+st.markdown("### 📊 Visualisasi Performa Model")
 col1, col2 = st.columns(2)
-
 with col1:
-    # Bar chart untuk Akurasi
-    fig_accuracy, ax_accuracy = plt.subplots(figsize=(8, 5))
-    bars1 = ax_accuracy.bar(df_performa['Model'], df_performa['Akurasi'], 
-                           color=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D'])
-    ax_accuracy.set_title('Perbandingan Akurasi Model', fontweight='bold', fontsize=12)
-    ax_accuracy.set_ylabel('Akurasi')
-    ax_accuracy.set_ylim(0, 1)
-    plt.xticks(rotation=45, ha='right')
-    
-    # Tambahkan label nilai
-    for bar in bars1:
-        height = bar.get_height()
-        ax_accuracy.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-                        f'{height:.3f}', ha='center', va='bottom', fontweight='bold')
-    
-    plt.tight_layout()
-    st.pyplot(fig_accuracy)
-
+    fig, ax = plt.subplots()
+    sns.barplot(x='Model', y='Akurasi', data=df_performa, palette='Blues_r', ax=ax)
+    ax.set_title('Akurasi Tiap Model')
+    ax.set_ylim(0,1)
+    st.pyplot(fig, use_container_width=True)
 with col2:
-    # Bar chart untuk F1-score
-    fig_f1, ax_f1 = plt.subplots(figsize=(8, 5))
-    bars2 = ax_f1.bar(df_performa['Model'], df_performa['F1-score (untuk Churn=Yes)'], 
-                      color=['#2E86AB', '#A23B72', '#F18F01', '#C73E1D'])
-    ax_f1.set_title('Perbandingan F1-Score Model', fontweight='bold', fontsize=12)
-    ax_f1.set_ylabel('F1-Score')
-    ax_f1.set_ylim(0, 1)
-    plt.xticks(rotation=45, ha='right')    # Tambahkan label nilai
-    for bar in bars2:
-        height = bar.get_height()
-        ax_f1.text(bar.get_x() + bar.get_width()/2., height + 0.01,
-                   f'{height:.3f}', ha='center', va='bottom', fontweight='bold')
-    
-    plt.tight_layout()
-    st.pyplot(fig_f1)
+    fig, ax = plt.subplots()
+    sns.barplot(x='Model', y='F1-Score (Churn)', data=df_performa, palette='Purples', ax=ax)
+    ax.set_title('F1-Score (Churn) Tiap Model')
+    ax.set_ylim(0,1)
+    st.pyplot(fig, use_container_width=True)
 
-st.info("""
-**Interpretasi Tabel:**
-- **XGBoost** menunjukkan **F1-score** (0.64) dan **Akurasi** (0.8009) tertinggi, menjadikannya model yang paling seimbang dan akurat secara keseluruhan untuk prediksi churn.
-- **Logistic Regression** memiliki **Recall** tertinggi (0.80), yang berarti model ini paling baik dalam mendeteksi semua pelanggan yang berpotensi churn, namun dengan precision yang lebih rendah.
-- **Random Forest** menunjukkan performa yang stabil dengan akurasi kedua tertinggi (0.7802), tetapi recall yang rendah (0.59) untuk mendeteksi pelanggan churn.
-- **Support Vector Machine** memiliki performa yang seimbang dengan recall tinggi (0.72) untuk churn, tetapi akurasi keseluruhan yang lebih rendah (0.7545).
+# --- Interpretation & Recommendation ---
+with st.expander("📖 Interpretasi Hasil & Rekomendasi", expanded=True):
+    st.success("""
+    - **XGBoost**: F1-score tertinggi (0.64), akurasi terbaik (0.80) → **Recommended**.
+    - **Logistic Regression**: Recall tertinggi (0.80), baik untuk mendeteksi churn.
+    - **Random Forest**: Akurasi tinggi, recall rendah.
+    - **SVM**: Recall tinggi (0.72), akurasi lebih rendah.
+    """)
 
-**Rekomendasi:** XGBoost dipilih sebagai model terbaik karena memberikan keseimbangan optimal antara precision dan recall.
-""")
-st.markdown("---")
-
-# --- Laporan Klasifikasi Detail ---
-st.header("Laporan Klasifikasi Detail untuk Setiap Model")
-tab1, tab2, tab3, tab4 = st.tabs(["XGBoost", "Logistic Regression", "Random Forest", "Support Vector Machine"])
-
+# --- Classification Report Tabs ---
+st.divider()
+st.markdown("### 📄 Laporan Klasifikasi Detail")
+tab1, tab2, tab3, tab4 = st.tabs(["XGBoost", "Logistic Regression", "Random Forest", "SVM"])
 with tab1:
     st.subheader("XGBoost")
     st.code("""
@@ -189,7 +117,6 @@ with tab1:
 
     accuracy                           0.80      1401
     """, language='text')
-
 with tab2:
     st.subheader("Logistic Regression")
     st.code("""
@@ -200,7 +127,6 @@ with tab2:
 
     accuracy                           0.75      1401
     """, language='text')
-
 with tab3:
     st.subheader("Random Forest")
     st.code("""
@@ -211,7 +137,6 @@ with tab3:
 
     accuracy                           0.78      1401
     """, language='text')
-    
 with tab4:
     st.subheader("Support Vector Machine")
     st.code("""
@@ -222,3 +147,7 @@ with tab4:
 
     accuracy                           0.75      1401
     """, language='text')
+
+# --- Footer / Divider ---
+st.divider()
+st.markdown("<center><span style='color: #999;'>© 2025 Kelompok 2 Data Mining</span></center>", unsafe_allow_html=True)
