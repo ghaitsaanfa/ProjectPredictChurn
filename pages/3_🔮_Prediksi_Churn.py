@@ -3,6 +3,14 @@ import pandas as pd
 import joblib
 import os
 
+# --- HEADER & LOGO (Selaraskan dengan Page 1 & 2) ---
+st.set_page_config(
+    page_title="Prediksi Churn", 
+    layout="wide",
+    page_icon="🔮",
+    initial_sidebar_state="expanded"
+)
+
 # --- CUSTOM CSS (Selaraskan dengan Page 1 & 2) ---
 st.markdown("""
     <style>
@@ -18,13 +26,6 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# --- HEADER & LOGO (Selaraskan dengan Page 1 & 2) ---
-st.set_page_config(
-    page_title="Prediksi Churn", 
-    layout="wide",
-    page_icon="🔮",
-    initial_sidebar_state="expanded"
-)
 st.markdown(
     """
     <div style="display: flex; align-items: center; margin-bottom: 15px;">
