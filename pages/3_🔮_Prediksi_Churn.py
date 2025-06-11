@@ -1,21 +1,47 @@
-# pages/3_🔮_Prediksi_Churn.py
 import streamlit as st
 import pandas as pd
 import joblib
 import os
 
-# --- Konfigurasi Halaman ---
+# --- CUSTOM CSS (Selaraskan dengan Page 1 & 2) ---
+st.markdown("""
+    <style>
+        .main { background-color: #f6f9fb; }
+        h1 { color: #2E86AB !important; }
+        h2, h3, h4 { color: #e3f2fd !important; }
+        .stDataFrame th { background-color: #e3f2fd !important; }
+        .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
+        .stMetric-value { color: #2E86AB !important; }
+        .stMetric-label { color: #555 !important; }
+        .stDownloadButton { background-color: #2E86AB !important; color: white !important; }
+        .stButton>button { border-radius: 6px; }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- HEADER & LOGO (Selaraskan dengan Page 1 & 2) ---
 st.set_page_config(
     page_title="Prediksi Churn", 
     layout="wide",
     page_icon="🔮",
     initial_sidebar_state="expanded"
 )
+st.markdown(
+    """
+    <div style="display: flex; align-items: center; margin-bottom: 15px;">
+        <img src="https://cdn-icons-png.flaticon.com/512/2203/2203187.png" width="50" style="margin-right: 20px;">
+        <h1 style="margin: 0; color: #2E86AB;">Prediksi Churn Pelanggan</h1>
+    </div>
+    """, unsafe_allow_html=True
+)
 
-# --- Header dan Deskripsi ---
-st.title("🔮 Prediksi Churn Pelanggan")
-st.markdown("Gunakan model Machine Learning yang telah dilatih untuk memprediksi kemungkinan pelanggan berhenti berlangganan")
+# --- INFO BOX ---
+st.info(
+    "Halaman ini menggunakan model Machine Learning yang telah dilatih untuk memprediksi kemungkinan pelanggan berhenti berlangganan (**churn**). "
+    "Silakan isi data pelanggan dan pilih model prediksi yang diinginkan.",
+    icon="🔮"
+)
 st.markdown("---")
+
 
 # --- Muat Aset ---
 @st.cache_resource
@@ -603,3 +629,7 @@ AI Prediction System"""
         # Menampilkan pesan jika prediksi gagal
         st.error("Gagal melakukan prediksi. Model tidak memberikan output yang valid.")
         st.info("Hal ini bisa terjadi jika kombinasi input sangat tidak biasa. Coba ubah input Anda dan lakukan prediksi lagi.")
+
+# --- FOOTER (Selaraskan dengan Page 2) ---
+st.markdown("---")
+st.markdown("<center><span style='color: #999;'>© 2025 Kelompok 2 Data Mining</span></center>", unsafe_allow_html=True)
