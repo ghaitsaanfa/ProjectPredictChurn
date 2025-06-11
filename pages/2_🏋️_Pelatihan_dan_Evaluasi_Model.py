@@ -27,7 +27,7 @@ st.markdown("---")
 st.markdown("""
     <style>
         .main { background-color: #f6f9fb; }
-        h1, h2, h3 { color: #e3f2fd !important; }
+        h2, h3 { color: #e3f2fd !important; }
         .stDataFrame th { background-color: #e3f2fd !important; }
         .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
         .stMetric-value { color: #2E86AB !important; }
