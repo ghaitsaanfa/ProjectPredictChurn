@@ -94,7 +94,7 @@ if df is not None:
 
     # 1. Distribusi Churn
     st.subheader("1. Distribusi Target Variable (Churn)")
-    fig_churn, ax_churn = plt.subplots(figsize=(4, 2))
+    fig_churn, ax_churn = plt.subplots(figsize=(8, 5))
     sns.countplot(
         x='Churn', data=df, ax=ax_churn,
         palette=['#2E86AB', '#A23B72']
