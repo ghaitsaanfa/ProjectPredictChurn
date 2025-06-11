@@ -1,4 +1,3 @@
-# app.py
 import streamlit as st
 
 st.set_page_config(
@@ -7,16 +6,47 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Selamat Datang di Dashboard Prediksi Churn Pelanggan!")
-st.write("""
-Proyek ini bertujuan untuk menganalisis faktor-faktor yang mempengaruhi churn pelanggan pada sebuah perusahaan telekomunikasi.
-Berdasarkan analisis tersebut, kami membangun beberapa model machine learning untuk memprediksi kemungkinan seorang pelanggan akan berhenti berlangganan (churn).
-""")
-st.write("Silakan pilih halaman dari sidebar di sebelah kiri untuk memulai:")
-st.markdown("""
-- **📊 Gambaran Dataset**: Melihat karakteristik dan visualisasi data mentah.
-- **🏋️ Pelatihan dan Evaluasi Model**: Melihat performa model machine learning yang telah dilatih.
-- **🔮 Prediksi Churn**: Mencoba memprediksi churn pelanggan berdasarkan input fitur.
+# Logo (opsional)
+# st.image("link_logo.png", width=100)
+
+st.title("Selamat Datang di Dashboard Prediksi Churn Pelanggan! 👋")
+
+# Nama Kelompok di bawah judul
+st.markdown("### Kelompok 2 - Data Mining")
+
+st.info("""
+Proyek ini bertujuan untuk menganalisis faktor-faktor yang mempengaruhi **churn pelanggan** pada sebuah perusahaan telekomunikasi.
+Berdasarkan analisis tersebut, beberapa model machine learning dibangun untuk memprediksi kemungkinan seorang pelanggan akan berhenti berlangganan (**churn**).
 """)
 
+st.markdown("---")
+
+kol1, kol2 = st.columns([2, 3])
+with kol1:
+    st.subheader("🔎 Fitur Dashboard")
+    st.markdown("""
+    - **📊 Gambaran Dataset**: Melihat karakteristik dan visualisasi data mentah.
+    - **🏋️ Pelatihan & Evaluasi Model**: Analisis performa model machine learning.
+    - **🔮 Prediksi Churn**: Coba prediksi churn pelanggan berdasarkan input fitur.
+    """)
+    st.success("Pilih halaman dari sidebar untuk mulai eksplorasi!")
+
+with kol2:
+    st.subheader("Tentang Churn Pelanggan")
+    st.write("""
+    Churn pelanggan adalah kondisi di mana pelanggan berhenti menggunakan layanan/perusahaan. 
+    Dashboard ini membantu perusahaan untuk:
+    - Mengidentifikasi faktor utama penyebab churn.
+    - Melakukan prediksi terhadap pelanggan yang berpotensi churn.
+    - Membantu pengambilan keputusan bisnis berbasis data.
+    """)
+
+st.markdown("---")
+st.sidebar.header("Navigasi")
 st.sidebar.success("Pilih halaman di atas.")
+
+# Footer dengan nama kelompok
+st.markdown(
+    "<hr><center><span style='color:gray'>© 2025 Kelompok 2 - Data Mining | Universitas XYZ</span></center>",
+    unsafe_allow_html=True
+)
