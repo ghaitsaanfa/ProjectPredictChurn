@@ -43,7 +43,7 @@ st.sidebar.header("Navigasi")
 st.sidebar.success("Pilih halaman di atas.")
 
 # Nama Kelompok
-st.markdown("<center>### Kelompok 2 - Data Mining")
+st.markdown("<center>### Kelompok 2 - Data Mining</center>")
 # Footer dengan nama kelompok
 st.markdown(
     "<hr><center><span style='color:gray'>© 2025 Kelompok 2 - Data Mining | Universitas Negeri Semarang</span></center>",
