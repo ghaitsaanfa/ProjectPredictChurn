@@ -20,14 +20,14 @@ st.markdown(
     </div>
     """, unsafe_allow_html=True
 )
-st.caption("Project Akhir Data Mining Kelompok 2 | Prediksi Churn Pelanggan Telco")
+st.write("Perbandingan performa 4 model Machine Learning untuk prediksi churn pelanggan")
 st.markdown("---")
 
 # --- Custom CSS (Diselaraskan dengan Page 1) ---
 st.markdown("""
     <style>
         .main { background-color: #f6f9fb; }
-        h1, h2, h3 { color: #2E86AB !important; }
+        h1, h2, h3 { color: #e3f2fd !important; }
         .stDataFrame th { background-color: #e3f2fd !important; }
         .stTabs [data-baseweb="tab"] { font-size:17px; padding: 12px 20px; }
         .stMetric-value { color: #2E86AB !important; }
