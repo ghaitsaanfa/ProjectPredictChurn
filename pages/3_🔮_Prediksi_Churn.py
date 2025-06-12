@@ -528,7 +528,7 @@ if submitted:
         # --- BUTTONS 16-19: Action Buttons setelah prediksi ---
         st.markdown("#### 🎯 Tindakan Selanjutnya")
         
-        col_action1, col_action2, col_action3, col_action4 = st.columns(4)
+        col_action1, col_action4 = st.columns(2)
         
         with col_action1:
             # BUTTON 16: Export Results
@@ -553,68 +553,7 @@ if submitted:
                 type="secondary",
                 use_container_width=True
             )
-        
-        with col_action2:
-            # BUTTON 17: Generate Email Template
-            if st.button("📧 Generate Email", type="secondary", use_container_width=True):
-                if prediction[0] == 1:
-                    email_template = f"""Subject: Urgent: Customer Retention Required
-
-Dear Customer Service Team,
-Our AI model ({st.session_state.selected_model}) has identified a high-risk customer:
-- Risk Level: {confidence:.1f}%
-- Churn Probability: {churn_prob:.1f}%
-- Customer Profile: 
- * Tenure: {tenure} months
- * Monthly Charges: ${MonthlyCharges}
- * Contract: {Contract}
-
-Recommended Actions:
-{'- Priority contact within 24 hours' if churn_prob > 80 else '- Proactive outreach recommended'}
-- Offer retention incentives
-- Review service satisfaction
-
-Please take immediate action.
-Best regards,
-AI Prediction System"""
-                else:
-                    email_template = f"""Subject: Customer Loyalty Opportunity
-
-Dear Account Manager,
-Great news! Our AI model shows this customer is likely to stay:
-- Loyalty Score: {confidence:.1f}%
-- Customer Profile: 
- * Tenure: {tenure} months
- * Monthly Charges: ${MonthlyCharges}
-
-Recommended Actions:
-- Consider upselling opportunities
-- Request referrals
-- Maintain excellent service
-
-Best regards,
-AI Prediction System"""
                 
-                st.text_area("📧 Email Template Generated:", email_template, height=300)
-        
-        with col_action3:
-            # BUTTON 18: Re-analyze with All Models
-            if st.button("📊 Analisis Ulang", type="secondary", use_container_width=True):
-                st.info("🔄 Menjalankan prediksi dengan model lain untuk perbandingan...")
-                
-                comparison_results = {}
-                for model_name, model in models.items():
-                    pred = model.predict(input_scaled)
-                    pred_proba = model.predict_proba(input_scaled)
-                    comparison_results[model_name] = {
-                        'Prediksi': 'CHURN' if pred[0] == 1 else 'TIDAK CHURN',
-                        'Confidence': f"{pred_proba.max()*100:.2f}%",
-                        'Churn_Prob': f"{pred_proba[0][1]*100:.2f}%"
-                    }
-                
-                comparison_df = pd.DataFrame(comparison_results).T
-                st.dataframe(comparison_df, use_container_width=True)
-        
         with col_action4:
             # BUTTON 19: New Prediction
             if st.button("🔄 Prediksi Baru", type="secondary", use_container_width=True):
